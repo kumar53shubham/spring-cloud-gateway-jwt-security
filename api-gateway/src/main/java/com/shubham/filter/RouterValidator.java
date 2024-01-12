@@ -1,4 +1,4 @@
-package com.shubham.security;
+package com.shubham.filter;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ public class RouterValidator {
 
     public static final List<String> openApiEndpoints = List.of(
             "/auth/register",
-            "/auth/authenticate",
+            "/auth/token",
             "/eureka",
             "/api-docs"
     );

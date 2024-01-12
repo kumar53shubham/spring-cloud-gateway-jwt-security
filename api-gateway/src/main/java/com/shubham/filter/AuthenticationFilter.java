@@ -1,4 +1,4 @@
-package com.shubham.security;
+package com.shubham.filter;
 
 import com.shubham.dto.ErrorResponseDto;
 import com.shubham.util.JwtUtil;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.SerializationUtils;
+import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
@@ -26,7 +27,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     }
 
     @Autowired
-    private  RouterValidator routerValidator;
+    private RouterValidator routerValidator;
+
+    @Autowired
+    private RestTemplate restTemplate;
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -34,6 +38,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             if (routerValidator.isSecured.test(exchange.getRequest()) ) {
+//                checking header contains token or not
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     throw new RuntimeException("Missing Authorisation Header");
                 }
@@ -43,6 +48,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     authHeader = authHeader.substring(7);
                 }
                 try {
+//                    rest call to auth service
+//                    restTemplate.getForObject("http://AUTH_SERVICE/auth/validate?token"+authHeader, String.class);
                     jwtUtil.validateToken(authHeader);
                 }
                 catch (Exception ex) {

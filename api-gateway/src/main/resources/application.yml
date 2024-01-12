@@ -7,14 +7,14 @@ spring:
           predicates:
             - Path=/swiggy/**
           filters:
-            - AuthenticationFilter
+            - AuthenticationFilter #securing swiggy app
 
         - id: restaurant-service
           uri: lb://RESTAURANT-SERVICE
           predicates:
             - Path=/restaurant/**
           filters:
-            - AuthenticationFilter
+            - AuthenticationFilter #securing restaurant service
 
         - id: auth-service
           uri: lb://AUTH-SERVICE
