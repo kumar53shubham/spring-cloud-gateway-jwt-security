@@ -4,8 +4,10 @@ server:
 spring:
   application:
     name: RESTAURANT-SERVICE
+  config:
+    import: configserver:http://localhost:9595
 
-eureka:
-  client:
-    service-url:
-      defaultZone : http://localhost:8761/eureka/
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone : http://localhost:8761/eureka/

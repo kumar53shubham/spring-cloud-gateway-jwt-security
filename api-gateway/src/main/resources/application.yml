@@ -1,4 +1,8 @@
 spring:
+  application:
+    name: SWIGGY-API-GATEWAY
+  config:
+    import: configserver:http://localhost:9595
   cloud:
     gateway:
       routes:
@@ -21,10 +25,10 @@ spring:
           predicates:
             - Path=/auth/**
 
-  application:
-    name: SWIGGY-API-GATEWAY
 
-eureka:
-  client:
-    service-url:
-      defaultZone : http://localhost:8761/eureka/
+
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone : http://localhost:8761/eureka/
