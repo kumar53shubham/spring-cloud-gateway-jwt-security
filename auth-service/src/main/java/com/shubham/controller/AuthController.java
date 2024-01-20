@@ -5,6 +5,7 @@ import com.shubham.entity.User;
 import com.shubham.repository.UserRepository;
 import com.shubham.service.AuthService;
 import com.shubham.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthController {
 
     @Autowired
@@ -40,6 +42,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
+        log.info("AuthController::addNewUser :{}",user);
         User savedUser = authService.saveUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 
@@ -48,6 +51,7 @@ public class AuthController {
 
     @GetMapping("/token")
     public String getToken(@RequestBody AuthRequest authRequest) {
+        log.info("AuthController::getToken :{}",authRequest);
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
             return jwtUtil.generateToken(authRequest.getUsername());
@@ -58,6 +62,7 @@ public class AuthController {
 
     @GetMapping("/validate")
     public String validateTokenAndGetClaims(@RequestParam("token") String token){
+        log.info("AuthController::validateTokenAndGetClaims :{}",token);
         jwtUtil.validateToken(token);
         return "Token validated";
     }

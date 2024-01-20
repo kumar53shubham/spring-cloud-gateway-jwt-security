@@ -18,4 +18,5 @@ public class OrderResponseDTO {
     private Date orderDate;
     private String status;
     private int estimateDeliveryWindow;
+    private String message;
 }
